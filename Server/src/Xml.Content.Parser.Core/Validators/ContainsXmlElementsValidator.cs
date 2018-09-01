@@ -33,7 +33,7 @@ namespace Xml.Content.Parser.Core.Validators
 
         private bool HasXmlElements(string messageContent, string regex)
         {
-            return _identifyXmlElementsService.Identify(messageContent, regex).Any();
+            return _identifyXmlElementsService.IdentifyXmlElements(messageContent, regex).Any();
         }
     }
 }

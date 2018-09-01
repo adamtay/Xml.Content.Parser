@@ -61,7 +61,7 @@ namespace Xml.Content.Parser.Core.Validators
 
         private Dictionary<string, int> IdentifyXmlElements(string messageContent, string regex)
         {
-            IEnumerable<string> identifyXmlMatches = _identifyXmlElementsService.Identify(messageContent, regex);
+            IEnumerable<string> identifyXmlMatches = _identifyXmlElementsService.IdentifyXmlElements(messageContent, regex);
 
             return identifyXmlMatches.GroupBy(xmlElement => xmlElement)
                 .ToDictionary(xmlElement => xmlElement.Key, xmlElement => xmlElement.Count());

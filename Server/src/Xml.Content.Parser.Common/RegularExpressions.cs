@@ -5,5 +5,7 @@
         public const string XmlOpenElementRegex = "<(\\w+)>";
 
         public const string XmlCloseElementRegex = "</(\\w+)>";
+
+        public const string XmlContentRegex = "<{0}>(.*?)</{0}>";
     }
 }

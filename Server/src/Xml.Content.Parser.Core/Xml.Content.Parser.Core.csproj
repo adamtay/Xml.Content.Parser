@@ -5,7 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Xml.Content.Parser.Common\Xml.Content.Parser.Common.csproj" />
+    <ProjectReference Include="..\Xml.Content.Parser.Repository\Xml.Content.Parser.Repository.csproj" />
   </ItemGroup>
 
 </Project>
