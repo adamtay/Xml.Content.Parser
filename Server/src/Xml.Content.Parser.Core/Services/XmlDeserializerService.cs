@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml;
 using Newtonsoft.Json;
+using Xml.Content.Parser.Common.Exceptions;
 using Xml.Content.Parser.Core.Interfaces;
 
 namespace Xml.Content.Parser.Core.Services
@@ -12,10 +13,17 @@ namespace Xml.Content.Parser.Core.Services
             if (string.IsNullOrWhiteSpace(messageContent))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(messageContent));
 
-            XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.LoadXml(messageContent);
+            try
+            {
+                XmlDocument xmlDocument = new XmlDocument();
+                xmlDocument.LoadXml(messageContent);
 
-            return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeXmlNode(xmlDocument));
+                return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeXmlNode(xmlDocument));
+            }
+            catch (Exception exception)
+            {
+                throw new XmlContentParserException($"The specified message content could not be deserialized into type: '{typeof(T).Name}'.", exception);
+            }
         }
     }
 }

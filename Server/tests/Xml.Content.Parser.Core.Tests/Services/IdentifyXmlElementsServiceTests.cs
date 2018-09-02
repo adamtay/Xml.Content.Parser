@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Xml;
 using FluentAssertions;
-using Newtonsoft.Json;
 using NUnit.Framework;
 using Xml.Content.Parser.Common;
-using Xml.Content.Parser.Core.Domain;
 using Xml.Content.Parser.Tests.Common;
 
 namespace Xml.Content.Parser.Core.Tests.Services
@@ -72,38 +70,29 @@ namespace Xml.Content.Parser.Core.Tests.Services
         }
 
         [Test]
-        public void CanExtractXmlContent1()
-        {
-            const string messageContent =
+        [TestCase(
 @"<expense><cost_centre></cost_centre>
     <total>1024.01</total><payment_method>personal card</payment_method>
-</expense>";
-
-            string extractXmlContent = IdentifyXmlElementsService.ExtractXmlContent(messageContent, RegularExpressions.XmlContentRegex, "expense");
-
-            XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.LoadXml(extractXmlContent);
-
-            string serializeXmlNode = JsonConvert.SerializeXmlNode(xmlDocument);
-            ExpenseDto deserializeObject = JsonConvert.DeserializeObject<ExpenseDto>(serializeXmlNode);
+</expense>", "expense")]
+        [TestCase("<vendor>Viaduct Steakhouse</vendor>", "vendor")]
+        public void CanExtractXmlContent(string messageContent, string xmlElement)
+        {
+            string extractXmlContent = IdentifyXmlElementsService.ExtractXmlContent(messageContent, RegularExpressions.XmlContentRegex, xmlElement);
 
             extractXmlContent.Should().Be(messageContent);
         }
 
         [Test]
-        public void CanExtractXmlContent2()
+        [TestCase(
+@"<expense><cost_centre></cost_centre>
+    <total>1024.01</total><payment_method>personal card</payment_method>
+</expense>", "test")]
+        [TestCase("<vendor>Viaduct Steakhouse</vendor>", "test")]
+        public void UnableToExtractXmlContentReturnsEmptyString(string messageContent, string xmlElement)
         {
-            const string messageContent = @"<vendor>Viaduct Steakhouse</vendor>";
+            string extractXmlContent = IdentifyXmlElementsService.ExtractXmlContent(messageContent, RegularExpressions.XmlContentRegex, xmlElement);
 
-            string extractXmlContent = IdentifyXmlElementsService.ExtractXmlContent(messageContent, RegularExpressions.XmlContentRegex, "vendor");
-
-            XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.LoadXml(extractXmlContent);
-
-            string serializeXmlNode = JsonConvert.SerializeXmlNode(xmlDocument);
-            VendorDto deserializeObject = JsonConvert.DeserializeObject<VendorDto>(serializeXmlNode);
-
-            extractXmlContent.Should().Be(messageContent);
+            extractXmlContent.Should().BeEmpty();
         }
     }
  }

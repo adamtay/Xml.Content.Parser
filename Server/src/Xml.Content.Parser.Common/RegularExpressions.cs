@@ -6,6 +6,6 @@
 
         public const string XmlCloseElementRegex = "</(\\w+)>";
 
-        public const string XmlContentRegex = "<{0}>(\\S.*?)</{0}>";
+        public const string XmlContentRegex = "<{0}>(.*?)</{0}>";
     }
 }

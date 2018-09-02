@@ -1,4 +1,5 @@
 ﻿using Xml.Content.Parser.Core.Domain;
+using Xml.Content.Parser.Core.Domain.XmlContracts;
 
 namespace Xml.Content.Parser.Tests.Common.Builders
 {

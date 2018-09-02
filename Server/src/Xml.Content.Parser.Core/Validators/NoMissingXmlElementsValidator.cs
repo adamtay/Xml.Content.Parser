@@ -73,7 +73,7 @@ namespace Xml.Content.Parser.Core.Validators
         {
             bool isClosingXmlElement = xmlElement.IndexOf("/", StringComparison.InvariantCultureIgnoreCase) == 1;
 
-            return isClosingXmlElement ? xmlElement.Remove(1) : xmlElement.Insert(1, "/");
+            return isClosingXmlElement ? xmlElement.Remove(1, 1) : xmlElement.Insert(1, "/");
         }
     }
 }

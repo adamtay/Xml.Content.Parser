@@ -32,7 +32,7 @@ namespace Xml.Content.Parser.Core.Validators
             bool isValid = mandatoryXmlElements.All(xmlElement =>
             {
                 string xmlContent = _identifyXmlElementsService.ExtractXmlContent(messageContent, RegularExpressions.XmlContentRegex, xmlElement);
-                return !string.IsNullOrWhiteSpace(xmlContent);
+                return !string.IsNullOrWhiteSpace(xmlContent) && !xmlContent.Equals($"{xmlElement}{xmlElement.Insert(1, "/")}");
             });
 
             if (!isValid)

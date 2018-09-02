@@ -33,7 +33,8 @@ namespace Xml.Content.Parser.Core.Services
             if (string.IsNullOrWhiteSpace(regex))
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(regex));
 
-            return Regex.Match(messageContent, string.Format(regex, element.Replace("<", string.Empty).Replace(">", string.Empty)), RegexOptions.Singleline | RegexOptions.IgnoreCase).Value;
+            return Regex.Match(messageContent, string.Format(regex, element.Replace("<", string.Empty).Replace(">", string.Empty)),
+                RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace).Value;
         }
     }
 }

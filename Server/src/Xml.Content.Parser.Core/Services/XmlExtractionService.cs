@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Xml.Content.Parser.Common;
 using Xml.Content.Parser.Core.Domain;
+using Xml.Content.Parser.Core.Domain.XmlContracts;
 using Xml.Content.Parser.Core.Interfaces;
 using Xml.Content.Parser.Core.Mappers;
 
@@ -32,12 +33,12 @@ namespace Xml.Content.Parser.Core.Services
 
             ValidateMessageContent(messageContent);
 
-            ExpenseDto expenseDto = ExtractAndDeserializeXmlElement<ExpenseDto>(messageContent, "expense");
-            VendorDto vendorDto = ExtractAndDeserializeXmlElement<VendorDto>(messageContent, "vendor");
-            DescriptionDto descriptionDto = ExtractAndDeserializeXmlElement<DescriptionDto>(messageContent, "description");
-            DateEventDto dateEventDto = ExtractAndDeserializeXmlElement<DateEventDto>(messageContent, "date");
+            ExpenseDto expense = ExtractAndDeserializeExpenseXmlElement(messageContent);
+            VendorDto vendor = ExtractAndDeserializeXmlElement<VendorDto>(messageContent, "vendor");
+            DescriptionDto description = ExtractAndDeserializeXmlElement<DescriptionDto>(messageContent, "description");
+            EventDateDto eventDate = ExtractAndDeserializeXmlElement<EventDateDto>(messageContent, "date");
 
-            return ExpenseMapper.Map(expenseDto, vendorDto, descriptionDto, dateEventDto);
+            return ExpenseMapper.Map(expense, vendor, description, eventDate);
         }
 
         private void ValidateMessageContent(string messageContent)
@@ -50,11 +51,34 @@ namespace Xml.Content.Parser.Core.Services
             }
         }
 
+        private ExpenseDto ExtractAndDeserializeExpenseXmlElement(string messageContent)
+        {
+            ExpenseDto expenseDto = ExtractAndDeserializeXmlElement<ExpenseDto>(messageContent, "expense");
+            if (expenseDto != null)
+            {
+                return expenseDto;
+            }
+
+            CostCentreDto costCentre = ExtractAndDeserializeXmlElement<CostCentreDto>(messageContent, "cost_centre");
+            TotalDto total = ExtractAndDeserializeXmlElement<TotalDto>(messageContent, "total");
+            PaymentMethodDto paymentMethod = ExtractAndDeserializeXmlElement<PaymentMethodDto>(messageContent, "payment_method");
+
+            return new ExpenseDto
+            {
+                Expense = new ExpenseDataDto
+                {
+                    CostCentre = costCentre?.CostCentre,
+                    Total = total.Total,
+                    PaymentMethod = paymentMethod?.PaymentMethod
+                }
+            };
+        }
+
         private T ExtractAndDeserializeXmlElement<T>(string messageContent, string element)
         {
             string xmlContent = _identifyXmlElementsService.ExtractXmlContent(messageContent, RegularExpressions.XmlContentRegex, element);
 
-            return _xmlDeserializerService.Deserialize<T>(xmlContent);
+            return !string.IsNullOrWhiteSpace(xmlContent) ? _xmlDeserializerService.Deserialize<T>(xmlContent) : default(T);
         }
     }
 }

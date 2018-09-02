@@ -10,24 +10,21 @@ namespace Xml.Content.Parser.Core.Domain
         private readonly decimal _gstAmount;
         private readonly string _vendor;
         private readonly string _description;
-        private readonly string _dateEvent;
+        private readonly string _eventDate;
 
-        public Expense(string costCentre, decimal total, string vendor, string description, string dateEvent)
+        public Expense(string costCentre, decimal total, string vendor, string description, string eventDate)
         {
             if (total < 0) throw new ArgumentOutOfRangeException(nameof(total));
-            if (string.IsNullOrWhiteSpace(vendor))
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(vendor));
-            if (string.IsNullOrWhiteSpace(description))
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(description));
-            if (string.IsNullOrWhiteSpace(dateEvent))
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(dateEvent));
+            if (vendor == null) throw new ArgumentNullException(nameof(vendor));
+            if (description == null) throw new ArgumentNullException(nameof(description));
+            if (eventDate == null) throw new ArgumentNullException(nameof(eventDate));
 
             _costCentre = !string.IsNullOrWhiteSpace(costCentre) ? costCentre : "UNKNOWN";
             _total = total;
             _gstAmount = 0.15m; // TODO: Move gst into a configuration.
             _vendor = vendor;
             _description = description;
-            _dateEvent = dateEvent;
+            _eventDate = eventDate;
         }
 
         public string CostCentre => _costCentre;
@@ -42,6 +39,6 @@ namespace Xml.Content.Parser.Core.Domain
 
         public string Description => _description;
 
-        public string DateEvent => _dateEvent;
+        public string EventDate => _eventDate;
     }
 }
