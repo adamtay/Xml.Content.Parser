@@ -7,10 +7,19 @@ using Xml.Content.Parser.Core.Interfaces;
 
 namespace Xml.Content.Parser.Core.Validators
 {
+    /// <summary>
+    /// Responsible for validating the specified message content.
+    /// </summary>
+    /// <seealso cref="Xml.Content.Parser.Core.Interfaces.IXmlElementValidator" />
     public class NoMissingXmlElementsValidator : IXmlElementValidator
     {
         private readonly IIdentifyXmlElementsService _identifyXmlElementsService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NoMissingXmlElementsValidator"/> class.
+        /// </summary>
+        /// <param name="identifyXmlElementsService">The identify XML elements service.</param>
+        /// <exception cref="ArgumentNullException">identifyXmlElementsService</exception>
         public NoMissingXmlElementsValidator(IIdentifyXmlElementsService identifyXmlElementsService)
         {
             if (identifyXmlElementsService == null) throw new ArgumentNullException(nameof(identifyXmlElementsService));
@@ -18,6 +27,13 @@ namespace Xml.Content.Parser.Core.Validators
             _identifyXmlElementsService = identifyXmlElementsService;
         }
 
+        /// <summary>
+        /// Validates the specified message content.
+        /// Ensures that the <see cref="!:messageContent"/> contains for all XML elements a corresponding opening and closing XML element pair.
+        /// </summary>
+        /// <param name="messageContent">Content of the message.</param>
+        /// <exception cref="ArgumentException">Value cannot be null or whitespace. - messageContent</exception>
+        /// <exception cref="XmlContentParserException">The specified message content contains XML elements without it's corresponding pair.</exception>
         public void Validate(string messageContent)
         {
             if (string.IsNullOrWhiteSpace(messageContent))

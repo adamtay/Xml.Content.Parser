@@ -9,12 +9,29 @@ using Xml.Content.Parser.Core.Mappers;
 
 namespace Xml.Content.Parser.Core.Services
 {
+    /// <summary>
+    /// Responsible for all operations against the <see cref="Expense"/> <see cref="object"/>. 
+    /// </summary>
+    /// <seealso cref="Xml.Content.Parser.Core.Interfaces.IExpenseService" />
     public class ExpenseService : IExpenseService
     {
         private readonly IXmlValidationFactory _xmlValidationFactory;
         private readonly IIdentifyXmlElementsService _identifyXmlElementsService;
         private readonly IXmlDeserializerService _xmlDeserializerService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExpenseService"/> class.
+        /// </summary>
+        /// <param name="xmlValidationFactory">The XML validation factory.</param>
+        /// <param name="identifyXmlElementsService">The identify XML elements service.</param>
+        /// <param name="xmlDeserializerService">The XML deserializer service.</param>
+        /// <exception cref="ArgumentNullException">
+        /// xmlValidationFactory
+        /// or
+        /// identifyXmlElementsService
+        /// or
+        /// xmlDeserializerService
+        /// </exception>
         public ExpenseService(IXmlValidationFactory xmlValidationFactory, IIdentifyXmlElementsService identifyXmlElementsService,
             IXmlDeserializerService xmlDeserializerService)
         {
@@ -27,6 +44,12 @@ namespace Xml.Content.Parser.Core.Services
             _xmlDeserializerService = xmlDeserializerService;
         }
 
+        /// <summary>
+        /// Extracts the specified message content.
+        /// </summary>
+        /// <param name="messageContent">Content of the message.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException">Value cannot be null or whitespace. - messageContent</exception>
         public Expense Extract(string messageContent)
         {
             if (string.IsNullOrWhiteSpace(messageContent))

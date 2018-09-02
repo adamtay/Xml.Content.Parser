@@ -6,8 +6,20 @@ using Xml.Content.Parser.Core.Interfaces;
 
 namespace Xml.Content.Parser.Core.Services
 {
+    /// <summary>
+    /// Responsible for deserializing XML content.
+    /// </summary>
+    /// <seealso cref="Xml.Content.Parser.Core.Interfaces.IXmlDeserializerService" />
     public class XmlDeserializerService : IXmlDeserializerService
     {
+        /// <summary>
+        /// Deserializes the specified message content.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="messageContent">Content of the message.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException">Value cannot be null or whitespace. - messageContent</exception>
+        /// <exception cref="XmlContentParserException"></exception>
         public T Deserialize<T>(string messageContent)
         {
             if (string.IsNullOrWhiteSpace(messageContent))

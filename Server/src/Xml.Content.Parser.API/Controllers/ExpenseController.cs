@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Swagger;
 using Xml.Content.Parser.API.Contracts;
 using Xml.Content.Parser.API.Mappers;
 using Xml.Content.Parser.Common.Exceptions;
@@ -11,6 +10,10 @@ using Xml.Content.Parser.Core.Interfaces;
 
 namespace Xml.Content.Parser.API.Controllers
 {
+    /// <summary>
+    /// Represents the <see cref="ExpenseController"/>.
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
     [Route("api/[controller]")]
     [ApiController]
     public class ExpenseController : ControllerBase
@@ -18,6 +21,16 @@ namespace Xml.Content.Parser.API.Controllers
         private readonly IExpenseService _expenseService;
         private readonly ILogger _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExpenseController"/> class.
+        /// </summary>
+        /// <param name="expenseService">The expense service.</param>
+        /// <param name="logger">The logger.</param>
+        /// <exception cref="ArgumentNullException">
+        /// expenseService
+        /// or
+        /// logger
+        /// </exception>
         public ExpenseController(IExpenseService expenseService, ILogger logger)
         {
             if (expenseService == null) throw new ArgumentNullException(nameof(expenseService));
@@ -27,6 +40,12 @@ namespace Xml.Content.Parser.API.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Extracts the XML content from the specified message content body.
+        /// </summary>
+        /// <param name="messageContent">Content of the message.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">messageContent</exception>
         [HttpPost("Extract")]
         [ProducesResponseType(typeof(ExpenseDto), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]

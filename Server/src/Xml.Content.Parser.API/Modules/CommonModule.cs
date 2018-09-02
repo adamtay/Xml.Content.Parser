@@ -1,16 +1,15 @@
 ﻿using System;
 using Autofac;
-using Xml.Content.Parser.Core.Factories;
-using Xml.Content.Parser.Core.Interfaces;
-using Xml.Content.Parser.Core.Services;
+using Xml.Content.Parser.Common.Interfaces;
+using Xml.Content.Parser.Common.Logger;
 
 namespace Xml.Content.Parser.API.Modules
 {
     /// <summary>
-    /// Represents all <see cref="CoreModule"/> bindings used by the API.
+    /// Represents all <see cref="CommonModule"/> bindings used by the API.
     /// </summary>
     /// <seealso cref="Autofac.Module" />
-    public class CoreModule : Module
+    public class CommonModule : Module
     {
         /// <summary>
         /// Registers the specified modules.
@@ -24,14 +23,8 @@ namespace Xml.Content.Parser.API.Modules
         protected override void Load(ContainerBuilder builder)
         {
             if (builder == null) throw new ArgumentNullException(nameof(builder));
-            
-            // Services
-            builder.RegisterType<IdentifyXmlElementsService>().As<IIdentifyXmlElementsService>();
-            builder.RegisterType<XmlDeserializerService>().As<IXmlDeserializerService>();
-            builder.RegisterType<ExpenseService>().As<IExpenseService>();
 
-            // Factories
-            builder.RegisterType<XmlValidationFactory>().As<IXmlValidationFactory>();
+            builder.RegisterType<Logger>().As<ILogger>();
         }
     }
 }

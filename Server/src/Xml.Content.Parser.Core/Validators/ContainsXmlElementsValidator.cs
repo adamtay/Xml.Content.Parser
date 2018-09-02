@@ -6,10 +6,19 @@ using Xml.Content.Parser.Core.Interfaces;
 
 namespace Xml.Content.Parser.Core.Validators
 {
+    /// <summary>
+    /// Responsible for validating the specified message content.
+    /// </summary>
+    /// <seealso cref="Xml.Content.Parser.Core.Interfaces.IXmlElementValidator" />
     public class ContainsXmlElementsValidator : IXmlElementValidator
     {
         private readonly IIdentifyXmlElementsService _identifyXmlElementsService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContainsXmlElementsValidator"/> class.
+        /// </summary>
+        /// <param name="identifyXmlElementsService">The identify XML elements service.</param>
+        /// <exception cref="ArgumentNullException">identifyXmlElementsService</exception>
         public ContainsXmlElementsValidator(IIdentifyXmlElementsService identifyXmlElementsService)
         {
             if (identifyXmlElementsService == null) throw new ArgumentNullException(nameof(identifyXmlElementsService));
@@ -17,6 +26,13 @@ namespace Xml.Content.Parser.Core.Validators
             _identifyXmlElementsService = identifyXmlElementsService;
         }
 
+        /// <summary>
+        /// Validates the specified message content.
+        /// Ensures that the <see cref="!:messageContent"/> contains an opening and closing XML element.
+        /// </summary>
+        /// <param name="messageContent">Content of the message.</param>
+        /// <exception cref="ArgumentException">Value cannot be null or whitespace. - messageContent</exception>
+        /// <exception cref="XmlContentParserException">The specified message content does not contain any valid XML elements.</exception>
         public void Validate(string messageContent)
         {
             if (string.IsNullOrWhiteSpace(messageContent))
