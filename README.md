@@ -8,7 +8,7 @@ Xml.Content.Parser requires [Visual Studio 2017](https://visualstudio.microsoft.
 Once installed:
 ```
 Run the solution /Server/Xml.Content.Parser.sln in Visual Studio 2017
-Once the solution has loaded, Press F5 to run the API in an IIS Express instance
+Once the solution has loaded, Press F5 to build and run the API in an IIS Express instance
 Navigate to http://localhost:{port}/swagger to begin using the API
 ```
 
@@ -23,6 +23,8 @@ This repository utilizes the following dependencies.
 * [NUnit] - Testing framework
 * [FluentAssertions] - Test assertions using fluent syntax
 * [NSubstitute] - Mocking library
+
+---
 
 ### Exercise Instructions
 The data received via the API will either be:
@@ -49,7 +51,10 @@ Subject: test
 
 Hi Antoine,
 
-Please create a reservation at the <vendor>Viaduct Steakhouse</vendor> our <description>development team’s project end celebration dinner</description> on <date>Tuesday 27 April 2017</date>. We expect to arrive around 7.15pm. Approximately 12 people but I’ll confirm exact numbers closer to the day.
+Please create a reservation at the <vendor>Viaduct Steakhouse</vendor> our
+<description>development team’s project end celebration dinner</description> on
+<date>Tuesday 27 April 2017</date>. We expect to arrive around
+7.15pm. Approximately 12 people but I’ll confirm exact numbers closer to the day.
 
 Regards,
 Ivan
