@@ -1,8 +1,4 @@
-﻿using FluentAssertions;
-using NUnit.Framework;
-using Xml.Content.Parser.Core.Domain;
-using Xml.Content.Parser.Core.Mappers;
-using Xml.Content.Parser.Tests.Common.Builders;
+﻿using NUnit.Framework;
 
 namespace Xml.Content.Parser.Core.Tests.Domain
 {
