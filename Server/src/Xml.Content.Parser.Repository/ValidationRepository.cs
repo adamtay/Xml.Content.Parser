@@ -9,8 +9,7 @@ namespace Xml.Content.Parser.Repository
         {
             return new List<string>
             {
-                "<total>",
-                "<cost_centre>"
+                "<total>"
             };
         }
     }

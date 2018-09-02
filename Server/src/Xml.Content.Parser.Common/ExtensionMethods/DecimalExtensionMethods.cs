@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Xml.Content.Parser.Common
+namespace Xml.Content.Parser.Common.ExtensionMethods
 {
     public static class DecimalExtensionMethods
     {

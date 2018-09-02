@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using FluentAssertions;
+using NUnit.Framework;
+using Xml.Content.Parser.Core.Domain;
 using Xml.Content.Parser.Tests.Common;
 
 namespace Xml.Content.Parser.Core.Tests.Services
@@ -36,10 +38,17 @@ Please create a reservation at the <vendor>Viaduct Steakhouse</vendor> our
 Regards,
 Ivan";
 
-
             Assert.DoesNotThrow(() =>
             {
-                XmlExtractionService.Extract(messageContent);
+                Expense expense = XmlExtractionService.Extract(messageContent);
+
+                expense.CostCentre.Should().NotBeNullOrEmpty();
+                expense.TotalInclGst.Should().BeGreaterThan(0m);
+                expense.TotalExclGst.Should().BeGreaterThan(0m);
+                expense.GstAmount.Should().BeGreaterThan(0m);
+                expense.Vendor.Should().NotBeNullOrEmpty();
+                expense.Description.Should().NotBeNullOrEmpty();
+                expense.DateEvent.Should().NotBeNullOrEmpty();
             });
         }
     }

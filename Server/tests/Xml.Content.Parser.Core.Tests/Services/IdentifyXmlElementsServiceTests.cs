@@ -77,7 +77,7 @@ namespace Xml.Content.Parser.Core.Tests.Services
         public void CanExtractXmlContent1()
         {
             const string messageContent =
-@"<expense><cost_centre>DEV002</cost_centre>
+@"<expense><cost_centre></cost_centre>
     <total>1024.01</total><payment_method>personal card</payment_method>
 </expense>";
 
