@@ -26,6 +26,7 @@ namespace Xml.Content.Parser.Core.Factories
             {
                 new ContainsXmlElementsValidator(_identifyXmlElementsService),
                 new NoMissingXmlElementsValidator(_identifyXmlElementsService),
+                new ValidXmlElementsValidator(_identifyXmlElementsService),
                 new MandatoryXmlElementsValidator(_identifyXmlElementsService, _validationRepository)
             };
         }

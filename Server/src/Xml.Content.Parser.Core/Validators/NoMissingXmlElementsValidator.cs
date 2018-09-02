@@ -31,7 +31,7 @@ namespace Xml.Content.Parser.Core.Validators
             CheckForMissingXmlElements(openingXmlElements, closingXmlElements, missingXmlElements);
             CheckForMissingXmlElements(closingXmlElements, openingXmlElements, missingXmlElements);
 
-            // TODO: nice to have to identify missing corresponding pairs.
+            // TODO: nice to have would be to identify missing corresponding pairs.
             if (missingXmlElements.Any())
             {
                 throw new XmlContentParserException("The specified message content contains XML elements without it's corresponding pair.");
@@ -64,14 +64,16 @@ namespace Xml.Content.Parser.Core.Validators
             IEnumerable<string> identifyXmlMatches = _identifyXmlElementsService.IdentifyXmlElements(messageContent, regex);
 
             return identifyXmlMatches.GroupBy(xmlElement => xmlElement)
-                .ToDictionary(xmlElement => xmlElement.Key, xmlElement => xmlElement.Count());
+                .ToDictionary(
+                    xmlElement => xmlElement.Key,
+                    xmlElement => xmlElement.Count());
         }
 
         private static string TransformToOpposingXmlElement(string xmlElement)
         {
             bool isClosingXmlElement = xmlElement.IndexOf("/", StringComparison.InvariantCultureIgnoreCase) == 1;
 
-            return isClosingXmlElement ? xmlElement.Replace("/", string.Empty) : xmlElement.Insert(1, "/");
+            return isClosingXmlElement ? xmlElement.Remove(1) : xmlElement.Insert(1, "/");
         }
     }
 }

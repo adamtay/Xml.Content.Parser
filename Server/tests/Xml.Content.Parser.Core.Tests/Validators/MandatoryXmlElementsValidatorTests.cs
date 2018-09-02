@@ -28,7 +28,9 @@ namespace Xml.Content.Parser.Core.Tests.Validators
         }
 
         [Test]
-        public void MessageContentWithMultipleManadtoryXmlElementsDoesNotThrowException()
+        [TestCase("<test1><test2>hello</test2></test1>")]
+        [TestCase("<test1>hello</test1><test2>hello</test2>")]
+        public void MessageContentWithMultipleManadtoryXmlElementsDoesNotThrowException(string messageContent)
         {
             List<string> mandatoryXmlElements = new List<string>
             {
@@ -37,8 +39,6 @@ namespace Xml.Content.Parser.Core.Tests.Validators
             };
 
             ValidationRepository.GetMandatoryXmlElements().Returns(mandatoryXmlElements);
-
-            const string messageContent = "<test1><test2>hello</test2></test1>";
 
             Assert.DoesNotThrow(() => MandatoryXmlElementsValidator.Validate(messageContent));
         }
@@ -56,16 +56,11 @@ namespace Xml.Content.Parser.Core.Tests.Validators
 
             ValidationRepository.GetMandatoryXmlElements().Returns(mandatoryXmlElements);
 
-            XmlContentParserException exception = Assert.Throws<XmlContentParserException>(() =>
-            {
-                MandatoryXmlElementsValidator.Validate(messageContent);
-            });
-
-            exception.Message.Should().Be($"The specified message content does not contain all mandatory XML elements. Mandatory elements: '{string.Join(",", mandatoryXmlElements)}'.");
+            AssertXmlContentParserExceptionIsThrown(messageContent, mandatoryXmlElements);
         }
 
         [Test]
-        public void EmptyMessageContentForMandatoryXmlElementThrowsException()
+        public void MessageContentWithNoContentForMandatoryXmlElementThrowsException()
         {
             List<string> mandatoryXmlElements = new List<string>
             {
@@ -76,12 +71,18 @@ namespace Xml.Content.Parser.Core.Tests.Validators
 
             const string messageContent = "<test></test>";
 
+            AssertXmlContentParserExceptionIsThrown(messageContent, mandatoryXmlElements);
+        }
+
+        private void AssertXmlContentParserExceptionIsThrown(string messageContent, List<string> mandatoryXmlElements)
+        {
             XmlContentParserException exception = Assert.Throws<XmlContentParserException>(() =>
             {
                 MandatoryXmlElementsValidator.Validate(messageContent);
             });
 
-            exception.Message.Should().Be($"The specified message content does not contain all mandatory XML elements. Mandatory elements: '{string.Join(",", mandatoryXmlElements)}'.");
+            exception.Message.Should()
+                .Be($"The specified message content does not contain all mandatory XML elements. Mandatory elements: '{string.Join(",", mandatoryXmlElements)}'.");
         }
     }
 }

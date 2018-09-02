@@ -29,8 +29,11 @@ namespace Xml.Content.Parser.Core.Validators
 
             IEnumerable<string> mandatoryXmlElements = _validationRepository.GetMandatoryXmlElements().ToList();
 
-            bool isValid = mandatoryXmlElements.All(xmlElement => !string.IsNullOrWhiteSpace(
-                _identifyXmlElementsService.ExtractXmlContent(messageContent, RegularExpressions.XmlContentRegex, xmlElement)));
+            bool isValid = mandatoryXmlElements.All(xmlElement =>
+            {
+                string xmlContent = _identifyXmlElementsService.ExtractXmlContent(messageContent, RegularExpressions.XmlContentRegex, xmlElement);
+                return !string.IsNullOrWhiteSpace(xmlContent);
+            });
 
             if (!isValid)
             {

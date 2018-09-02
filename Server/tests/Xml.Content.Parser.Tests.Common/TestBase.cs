@@ -13,6 +13,7 @@ namespace Xml.Content.Parser.Tests.Common
         private readonly IIdentifyXmlElementsService _identifyXmlElementsService;
         private readonly IXmlElementValidator _containsXmlElementsValidator;
         private readonly IXmlElementValidator _noMissingXmlElementsValidator;
+        private readonly IXmlElementValidator _validXmlElementsValidator;
         private readonly IXmlElementValidator _mandatoryXmlElementsValidator;
         private readonly IXmlValidationFactory _xmlValidationFactory;
         private readonly XmlExtractionService _xmlExtractionService;
@@ -23,6 +24,7 @@ namespace Xml.Content.Parser.Tests.Common
             _identifyXmlElementsService = new IdentifyXmlElementsService();
             _containsXmlElementsValidator = new ContainsXmlElementsValidator(_identifyXmlElementsService);
             _noMissingXmlElementsValidator = new NoMissingXmlElementsValidator(_identifyXmlElementsService);
+            _validXmlElementsValidator = new ValidXmlElementsValidator(_identifyXmlElementsService);
             _mandatoryXmlElementsValidator = new MandatoryXmlElementsValidator(_identifyXmlElementsService, _validationRepository);
             _xmlValidationFactory = new XmlValidationFactory(_identifyXmlElementsService, _validationRepository);
             _xmlExtractionService = new XmlExtractionService(_xmlValidationFactory, _identifyXmlElementsService, new XmlDeserializerService());
@@ -38,6 +40,7 @@ namespace Xml.Content.Parser.Tests.Common
         // Validators
         protected IXmlElementValidator ContainsXmlElementsValidator => _containsXmlElementsValidator;
         protected IXmlElementValidator NoMissingXmlElementsValidator => _noMissingXmlElementsValidator;
+        protected IXmlElementValidator ValidXmlElementsValidator => _validXmlElementsValidator;
         protected IXmlElementValidator MandatoryXmlElementsValidator => _mandatoryXmlElementsValidator;
 
         // Factories

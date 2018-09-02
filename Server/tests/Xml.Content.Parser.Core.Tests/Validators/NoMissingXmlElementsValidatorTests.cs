@@ -13,6 +13,7 @@ namespace Xml.Content.Parser.Core.Tests.Validators
         [Test]
         [TestCase("<test1></test1><test2></test2>")]
         [TestCase("<test></TEST>")]
+        [TestCase("<parent><child></child></parent>")]
         public void MessageContentWithMatchingXmlElementDoesNotThrowException(string messageContent)
         {
             Assert.DoesNotThrow(() => NoMissingXmlElementsValidator.Validate(messageContent));
@@ -23,13 +24,7 @@ namespace Xml.Content.Parser.Core.Tests.Validators
         {
             const string messageContent = "<test1></test2>";
 
-            XmlContentParserException exception = Assert.Throws<XmlContentParserException>(() =>
-            {
-                NoMissingXmlElementsValidator.Validate(messageContent);
-            });
-
-            exception.Message.Should()
-                .Be("The specified message content contains XML elements without it's corresponding pair.");
+            AssertXmlContentParserExceptionIsThrown(messageContent);
         }
 
         [Test]
@@ -37,34 +32,27 @@ namespace Xml.Content.Parser.Core.Tests.Validators
         {
             const string messageContent = "<test1></test1><test1></test2>";
 
-            XmlContentParserException exception = Assert.Throws<XmlContentParserException>(() =>
-            {
-                NoMissingXmlElementsValidator.Validate(messageContent);
-            });
-
-            exception.Message.Should()
-                .Be("The specified message content contains XML elements without it's corresponding pair.");
+            AssertXmlContentParserExceptionIsThrown(messageContent);
         }
 
         [Test]
-        public void MessageContentWithNoClosingXmlElementsThrowsException()
+        public void MessageContentWithoutClosingXmlElementsThrowsException()
         {
             const string messageContent = "<test1><test2>";
 
-            XmlContentParserException exception = Assert.Throws<XmlContentParserException>(() =>
-            {
-                NoMissingXmlElementsValidator.Validate(messageContent);
-            });
-
-            exception.Message.Should()
-                .Be("The specified message content contains XML elements without it's corresponding pair.");
+            AssertXmlContentParserExceptionIsThrown(messageContent);
         }
 
         [Test]
-        public void MessageContentWithNoOpeningXmlElementsThrowsException()
+        public void MessageContentWithoutOpeningXmlElementsThrowsException()
         {
             const string messageContent = "</test1></test2>";
 
+            AssertXmlContentParserExceptionIsThrown(messageContent);
+        }
+
+        private void AssertXmlContentParserExceptionIsThrown(string messageContent)
+        {
             XmlContentParserException exception = Assert.Throws<XmlContentParserException>(() =>
             {
                 NoMissingXmlElementsValidator.Validate(messageContent);
