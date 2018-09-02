@@ -50,6 +50,7 @@ namespace Xml.Content.Parser.Core.Services
         /// <param name="messageContent">Content of the message.</param>
         /// <returns></returns>
         /// <exception cref="ArgumentException">Value cannot be null or whitespace. - messageContent</exception>
+        // TODO: This method only extracts a single Expense object. Nice to have would be to expand and extract multiple Expenses.
         public Expense Extract(string messageContent)
         {
             if (string.IsNullOrWhiteSpace(messageContent))
