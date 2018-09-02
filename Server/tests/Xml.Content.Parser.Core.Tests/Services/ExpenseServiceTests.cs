@@ -11,7 +11,7 @@ namespace Xml.Content.Parser.Core.Tests.Services
     [TestFixture]
     [Category("UnitTests")]
     [Category("XmlExtraction")]
-    public class XmlExtractionServiceTests : TestBase
+    public class ExpenseServiceTests : TestBase
     {
         [SetUp]
         public void SetUp()
@@ -50,7 +50,7 @@ Please create a reservation at the <vendor>Viaduct Steakhouse</vendor> our
 Regards,
 Ivan";
 
-            Expense expense = XmlExtractionService.Extract(messageContent);
+            Expense expense = ExpenseService.Extract(messageContent);
 
             expense.CostCentre.Should().Be("DEV002");
             expense.TotalInclGst.Should().Be(1024.01m);
@@ -69,7 +69,7 @@ Ivan";
     <total>1024.01</total><payment_method>personal card</payment_method>
 </expense>";
 
-            Expense expense = XmlExtractionService.Extract(messageContent);
+            Expense expense = ExpenseService.Extract(messageContent);
 
             expense.CostCentre.Should().Be("UNKNOWN");
             expense.TotalInclGst.Should().Be(1024.01m);
@@ -91,7 +91,7 @@ Ivan";
 <description>development team’s project end celebration dinner</description>
 <date>Tuesday 27 April 2017</date>";
 
-            Expense expense = XmlExtractionService.Extract(messageContent);
+            Expense expense = ExpenseService.Extract(messageContent);
 
             expense.CostCentre.Should().Be("DEV002");
             expense.TotalInclGst.Should().Be(1024.01m);
@@ -112,7 +112,7 @@ Ivan";
 
             XmlContentParserException exception = Assert.Throws<XmlContentParserException>(() =>
             {
-                XmlExtractionService.Extract(messageContent);
+                ExpenseService.Extract(messageContent);
             });
 
             exception.Message.Should()
@@ -132,7 +132,7 @@ Ivan";
 
             XmlContentParserException exception = Assert.Throws<XmlContentParserException>(() =>
             {
-                XmlExtractionService.Extract(messageContent);
+                ExpenseService.Extract(messageContent);
             });
 
             exception.Message.Should()
@@ -146,7 +146,7 @@ Ivan";
 
             XmlContentParserException exception = Assert.Throws<XmlContentParserException>(() =>
             {
-                XmlExtractionService.Extract(messageContent);
+                ExpenseService.Extract(messageContent);
             });
 
             exception.Message.Should()
@@ -162,7 +162,7 @@ Ivan";
 
             XmlContentParserException exception = Assert.Throws<XmlContentParserException>(() =>
             {
-                XmlExtractionService.Extract(messageContent);
+                ExpenseService.Extract(messageContent);
             });
 
             exception.Message.Should()

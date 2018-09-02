@@ -17,7 +17,7 @@ namespace Xml.Content.Parser.Tests.Common
         private readonly IXmlElementValidator _mandatoryXmlElementsValidator;
         private readonly IXmlValidationFactory _xmlValidationFactory;
         private readonly IXmlDeserializerService _xmlDeserializerService;
-        private readonly XmlExtractionService _xmlExtractionService;
+        private readonly IExpenseService _expenseService;
 
         protected TestBase()
         {
@@ -29,7 +29,7 @@ namespace Xml.Content.Parser.Tests.Common
             _mandatoryXmlElementsValidator = new MandatoryXmlElementsValidator(_identifyXmlElementsService, _validationRepository);
             _xmlValidationFactory = new XmlValidationFactory(_identifyXmlElementsService, _validationRepository);
             _xmlDeserializerService = new XmlDeserializerService();
-            _xmlExtractionService = new XmlExtractionService(_xmlValidationFactory, _identifyXmlElementsService, _xmlDeserializerService);
+            _expenseService = new ExpenseService(_xmlValidationFactory, _identifyXmlElementsService, _xmlDeserializerService);
         }
 
         // Repositories
@@ -38,7 +38,7 @@ namespace Xml.Content.Parser.Tests.Common
         // Services
         protected IIdentifyXmlElementsService IdentifyXmlElementsService => _identifyXmlElementsService;
         protected IXmlDeserializerService XmlDeserializerService => _xmlDeserializerService;
-        protected XmlExtractionService XmlExtractionService => _xmlExtractionService;
+        protected IExpenseService ExpenseService => _expenseService;
 
         // Validators
         protected IXmlElementValidator ContainsXmlElementsValidator => _containsXmlElementsValidator;

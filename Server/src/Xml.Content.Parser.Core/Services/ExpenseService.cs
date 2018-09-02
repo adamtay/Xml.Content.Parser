@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Xml.Content.Parser.Common;
+using Xml.Content.Parser.Core.Constants;
 using Xml.Content.Parser.Core.Domain;
 using Xml.Content.Parser.Core.Domain.XmlContracts;
 using Xml.Content.Parser.Core.Interfaces;
@@ -8,13 +9,13 @@ using Xml.Content.Parser.Core.Mappers;
 
 namespace Xml.Content.Parser.Core.Services
 {
-    public class XmlExtractionService
+    public class ExpenseService : IExpenseService
     {
         private readonly IXmlValidationFactory _xmlValidationFactory;
         private readonly IIdentifyXmlElementsService _identifyXmlElementsService;
         private readonly IXmlDeserializerService _xmlDeserializerService;
 
-        public XmlExtractionService(IXmlValidationFactory xmlValidationFactory, IIdentifyXmlElementsService identifyXmlElementsService,
+        public ExpenseService(IXmlValidationFactory xmlValidationFactory, IIdentifyXmlElementsService identifyXmlElementsService,
             IXmlDeserializerService xmlDeserializerService)
         {
             if (xmlValidationFactory == null) throw new ArgumentNullException(nameof(xmlValidationFactory));
@@ -34,9 +35,9 @@ namespace Xml.Content.Parser.Core.Services
             ValidateMessageContent(messageContent);
 
             ExpenseDto expense = ExtractAndDeserializeExpenseXmlElement(messageContent);
-            VendorDto vendor = ExtractAndDeserializeXmlElement<VendorDto>(messageContent, "vendor");
-            DescriptionDto description = ExtractAndDeserializeXmlElement<DescriptionDto>(messageContent, "description");
-            EventDateDto eventDate = ExtractAndDeserializeXmlElement<EventDateDto>(messageContent, "date");
+            VendorDto vendor = ExtractAndDeserializeXmlElement<VendorDto>(messageContent, ExpenseConstants.Vendor);
+            DescriptionDto description = ExtractAndDeserializeXmlElement<DescriptionDto>(messageContent, ExpenseConstants.Description);
+            EventDateDto eventDate = ExtractAndDeserializeXmlElement<EventDateDto>(messageContent, ExpenseConstants.Date);
 
             return ExpenseMapper.Map(expense, vendor, description, eventDate);
         }
@@ -53,15 +54,15 @@ namespace Xml.Content.Parser.Core.Services
 
         private ExpenseDto ExtractAndDeserializeExpenseXmlElement(string messageContent)
         {
-            ExpenseDto expenseDto = ExtractAndDeserializeXmlElement<ExpenseDto>(messageContent, "expense");
+            ExpenseDto expenseDto = ExtractAndDeserializeXmlElement<ExpenseDto>(messageContent, ExpenseConstants.Expense);
             if (expenseDto != null)
             {
                 return expenseDto;
             }
 
-            CostCentreDto costCentre = ExtractAndDeserializeXmlElement<CostCentreDto>(messageContent, "cost_centre");
-            TotalDto total = ExtractAndDeserializeXmlElement<TotalDto>(messageContent, "total");
-            PaymentMethodDto paymentMethod = ExtractAndDeserializeXmlElement<PaymentMethodDto>(messageContent, "payment_method");
+            CostCentreDto costCentre = ExtractAndDeserializeXmlElement<CostCentreDto>(messageContent, ExpenseConstants.CostCentre);
+            TotalDto total = ExtractAndDeserializeXmlElement<TotalDto>(messageContent, ExpenseConstants.Total);
+            PaymentMethodDto paymentMethod = ExtractAndDeserializeXmlElement<PaymentMethodDto>(messageContent, ExpenseConstants.PaymentMethod);
 
             return new ExpenseDto
             {

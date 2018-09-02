@@ -3,9 +3,9 @@ using Xml.Content.Parser.Core.Constants;
 
 namespace Xml.Content.Parser.Core.Domain.XmlContracts
 {
-    public class CostCentreDto
+    public class DescriptionDto
     {
-        [JsonProperty(ExpenseConstants.CostCentre)]
-        public string CostCentre { get; set; }
+        [JsonProperty(ExpenseConstants.Description)]
+        public string Description { get; set; }
     }
 }

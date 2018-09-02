@@ -9,7 +9,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.8.1" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Xml.Content.Parser.API.Contracts\Xml.Content.Parser.API.Contracts.csproj" />
+    <ProjectReference Include="..\Xml.Content.Parser.Core\Xml.Content.Parser.Core.csproj" />
+    <ProjectReference Include="..\Xml.Content.Parser.Repository\Xml.Content.Parser.Repository.csproj" />
   </ItemGroup>
 
 </Project>
